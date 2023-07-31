@@ -1,0 +1,17 @@
+PROJECT vs APP:
+
+
+CREATING AN PROJECT:
+    django-admin startproject project_name
+
+CREATING AN APP:
+    - django-admin startapp app_name
+
+    - settings.py te giye bole diye ashte hobe
+
+    - create urls.py in app folder (karon ekhane views.py ache but urls.py nei.)
+
+    - project url e giye include tag diye bole dite hobe je- akhn theke je url gulo ashbe
+            shegulo oi app url theke ashbe.
+
+    - logical kaj gulo app er urls.py & views gulo app er views.py theke ashbe. 

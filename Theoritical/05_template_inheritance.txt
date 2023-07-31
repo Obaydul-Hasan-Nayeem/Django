@@ -1,0 +1,46 @@
+Template Inheritance / Template Extending
+=========================================
+
+DRY: Do not Repeat Yourself
+
+- Template Inheritance allows us to build a base "skeleton" template that contains all the comon elements of our site and defines blocks that child templates can override.
+
+- To inherit template, use the extends tag.
+
+- The base.html block tags will be recognized by the template engine, which will then replace those blocks with the contents of the child template.
+
+- As many levels of Inheritance as necessary may be used. 
+
+SYNTAX:
+=======
+{% extends something %}
+{% extends parent_template_name %}
+{% extends variable %}
+
+Examples:
+    {% extends "./base1.html" %}
+    {% extends "../base2.html" %}
+    {% extends "./my/base3.html" %}
+
+
+BLOCK TAG:
+==========
+{% block %} - The block tag is used to for overriding specefic parts of a template.
+
+Syntax:
+    {% block blockname %}... {% endblock %}
+    {% block blockname %}...{% endblock blockname %}
+
+Example:
+    {% block title %}...{% endblock %}
+    {% block content %}...{% endblock content %}
+
+
+RULES:
+    - {% extends %} must be the first template tag in that template. Template Inheritance won't work, otherwise.
+
+    - More {% block %} tags in our base templates are better.
+
+    - We can't define multiple block tags with the same name in the same template.
+
+    - If we need to get the content of the block from the parent template, the {{ block.super }} variable will do the trick. 

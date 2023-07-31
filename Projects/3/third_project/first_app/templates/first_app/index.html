@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'first_app/css/first.css' %}">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        {% comment %} <h1>We are inside app </h1>
+        <h1> {{author}} </h1>
+        
+        {% if age >= 18 %}
+        <p>driving liscence nite parba</p>
+        {% else %}
+        <p> parba na. bashay jao </p>
+        {% endif %} {% endcomment %}
+
+{% comment %} 
+         <table border = "1" width = 500>
+            <tr>
+                <th>ID</th>
+                <th>Course</th>
+                <th>Teacher</th>
+            </tr>
+
+                {% for i in courses %}
+                <tr>
+                    <td> {{i.id}}</td>
+                    <td> {{i.course}}</td>
+                    <td> {{i.teacher}}</td>
+                </tr>
+                {% endfor %}
+        </table>  {% endcomment %}
+        <h1>{{ marks|add:"2" }}</h1>
+        <h1>{{ marks|divisibleby:"2" }}</h1>
+        <h1>{{ blog|length }}</h1>
+        <h1>{{ blog|wordcount }}</h1>
+        <h1>{{ blog|truncatewords:10 }}</h1>
+        <h1>{{ blog|truncatechars:10 }}</h1>
+        <h1>{{ name|make_list }}</h1>
+        <h1>{{ name|upper }}</h1>
+        <h1>{{ lst|join:", " }}</h1>
+
+        <img src = "{% static 'first_app/images/nayeem1.jpg' %}" alt = "Nayeem 1">
+
+        <script src="" async defer></script>
+    </body>
+</html>

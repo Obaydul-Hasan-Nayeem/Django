@@ -1,0 +1,10 @@
+Static File
+===========
+website er moddhe jeshob file (text / img / video / audio / js file) sohoje change kora lage nas
+
+    - django kokhono  static file direct use korte dey na. settings.py te static root & static url bole dite hobe.
+    - project niye jokhon kaj korbo tokhon settings.py e obosshoi bole dite hobe. but app niye korle bola lage na.
+
+Media / Dynamic File:
+=============-=======
+jeshob file user er dhara always change hoy (text / img / video / audio / js file)

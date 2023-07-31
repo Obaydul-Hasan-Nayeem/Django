@@ -1,0 +1,15 @@
+urlpatterns = [
+    path('about/',views.about),
+]
+<a href = "/about"> About </a>
+
+---------------------------------------------------------
+
+urlpatterns = [
+    path('about/', views/about, name = 'aboutus')
+]
+<a href = "{% url 'aboutus' %}"> About </a>
+
+---------------------------------------------------------
+{% url 'aboutus' as abc %}
+<a href="{{abc}}"> About </a>

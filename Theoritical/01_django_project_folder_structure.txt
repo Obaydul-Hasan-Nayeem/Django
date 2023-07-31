@@ -1,0 +1,26 @@
+_init__.py 
+==========
+    python package
+
+wsgi.py
+=======
+    wsgi = web server gateway interface
+    describes how a web server communicates with web applications [synchronous]
+
+asgi.py
+=======
+    asgi = asynchronous server gateway interface
+    provides standard for asynchronous and synchronous
+
+settings.py
+===========
+    parent / mother
+    database config info, template, installed applications, validators
+
+urls.py
+=======
+    contains information of url attached with applications
+
+manage.py
+=========
+    project specific command line utility

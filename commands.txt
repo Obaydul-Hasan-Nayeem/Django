@@ -1,0 +1,59 @@
+VIRTUAL ENVIRONMENT:-------------------------------------------------------
+    pip install virtualenv
+
+    virtualenv --version
+
+    virtualenv my_env
+
+    source ./my_env/Scripts/activate
+
+    my_env/Scripts>deactivate
+
+    OPTIONAL:
+	Set-ExecutionPolicy Unrestricted - Force | powershell e eta kore dile kichu somossa r hoy na
+ 
+INSTALLING DJANGO:-------------------------------------------------------
+    pip install django
+
+CREATING PROJECT:---------------------------------------------------------
+        django-admin startproject project_name
+
+        cd project_name
+
+        py manage.py runserver
+
+CREATING APPLICATION------------------------------------------------------
+        - django-admin startapp app_name
+        - add the app name in settings.py file 
+                INSTALLED APPS = [
+                    ...
+                    "app_name"
+                    ...
+                ]
+        - inner project -> urls.py -> 
+                from django.urls import path, include
+                urlpatterns = [
+                    ...
+                    path('app_name/', include("app_name.urls")),
+                    ...
+                ]
+
+        - app dir -> make a file "urls.py" -> add the below code
+                from django.urls import path
+                from . import views
+                urlpatterns = [
+                    path('', views.home),
+                ]
+
+MAKE templates FOLDER------------------------------------------
+    - create the folder in root
+    - add the folder name in settings.py file
+            TEMPLATES = [
+                ...
+                'DIRS': [BASE_DIR/"templates"],
+                ...
+            ]
+
+RUN SERVER ------------------------------------------
+    - py manage.py runserver
+    - py manage.py runserver 8001 [if not work the previous]

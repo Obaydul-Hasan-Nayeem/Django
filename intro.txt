@@ -1,0 +1,47 @@
+WHAT:
+    - a web applications framework (written in python)
+    - based on MVT (Model View Template) design pattern
+    - batteries included framework [provides built-in features for everything needed]
+
+WHY:
+    - excellent documentation
+    - used django: instagram, spotify, youtube, bitbucket, dropbox
+    - easiest framework
+    - web scrapping, machine learning, image processing, scientific computing
+
+FEATURES:
+    - admin interface
+    - object relational mapping (ORM): converting python dictionary to sql
+    - url routing
+    - template system
+    - form handling
+    - security features
+    - scalability
+
+HOW WORK:
+                                        model
+                                      /
+    user --> django --> url --> view /
+                                     \
+                                      \
+                                        template
+
+                                    
+    Model:
+        - the data usually we want to present, usually data from a database
+
+    View:
+        - a request handler that returns the relevent template and content - based on the 
+            request from the user.
+        - logical kaj gula kore
+
+    Template:
+        - it represent how data should be presented to the application user. It may consists of
+            html, css, js mixed with django template language.
+
+
+VIRTUAL ENVIRONMENT:
+    - a tool that helps to keep dependencies required by different projects separate by
+    creating isolated python virtual environment by them.
+    - alada version er package er jonno alada environment create kore
+    - ekadhik project alada version er holeo akta pc te kora jabe
