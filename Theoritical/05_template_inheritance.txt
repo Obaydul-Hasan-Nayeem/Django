@@ -44,3 +44,93 @@ RULES:
     - We can't define multiple block tags with the same name in the same template.
 
     - If we need to get the content of the block from the parent template, the {{ block.super }} variable will do the trick. 
+
+
+    A COMPLETE EXAMPLE
+    ==================
+
+    home.html                       about.html
+    ----------                      ----------
+    <html>                          <html>
+    <head>                          <head>
+    <title>Home</title>             <title>About</title>
+    </head>                         </head>
+    <body>                          <body>
+    <h1>Home Page</h1>              <h1>About Page</h1>
+    </body>                         </body>
+
+-----------------------------------------------------------------
+
+    base.html
+    ---------
+    <html>
+    <head>
+    <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+    {% block content %} {% endblock content %}
+    </body>
+    </html>
+
+
+    home.html
+    ---------
+    {% extends 'base.html' %}
+    
+    {% block title %}
+    Home
+    {% endblock %}
+
+    {% block content %}
+        <h1>Home Page</h1>
+    {% endblock content %}
+
+
+    about.html
+    ---------
+    {% extends 'base.html' %}
+    
+    {% block title %}
+    About
+    {% endblock %}
+
+    {% block content %}
+        <h1>About Page</h1>
+    {% endblock content %}
+
+
+EXAMPLE (using super)
+=====================
+    base.html [created by us]
+    ---------
+    <html>
+    <head>
+    <title>{% block title %}Other{% endblock %}</title>
+    </head>
+    <body>
+    {% block content %} {% endblock content %}
+    </body>
+    </html>
+
+    home.html [created by us]
+    ---------
+    {% extends 'base.html' %}
+    
+    {% block title %} {{ block.super }} Home {% endblock %}
+
+    {% block content %}
+        <h1>Hello! I am home page.</h1>
+    {% endblock content %}
+
+
+    home.html [created by django tempate engine]
+    ---------
+    {% extends 'base.html' %}
+    
+    {% block title %}
+    Other Home
+    {% endblock %}
+
+    {% block content %}
+        <h1>Hello! I am home page.</h1>
+    {% endblock content %}

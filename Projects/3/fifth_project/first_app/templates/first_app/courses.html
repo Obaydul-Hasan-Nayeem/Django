@@ -1,0 +1,26 @@
+{% load first_tags %}
+
+{% comment %} <p> {{course.id}} , {{course.name}} , {{course.teacher}} </p> {% endcomment %}
+
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Course Name</th>
+        <th>Course Teacher</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+ {% for i in courses %}
+      <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.course}}</td>
+        <td>{{i.teacher}}</td>
+      </tr>  
+{% endfor %} 
+
+    </tbody>
+  </table>

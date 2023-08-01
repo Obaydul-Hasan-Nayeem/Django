@@ -57,3 +57,22 @@ MAKE templates FOLDER------------------------------------------
 RUN SERVER ------------------------------------------
     - py manage.py runserver
     - py manage.py runserver 8001 [if not work the previous]
+
+
+CRISPY FORM------------------------------------------------
+	- pip install crispy-bootstrap5
+	- settings.py -> 
+		INSTALLED APPS = [
+					...
+					    'crispy_forms',
+    					    'crispy_bootstrap5',
+					...
+				]
+        CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+        CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+	- On the file (like, django_form.html): 
+	{% load crispy_forms_tags %}
+	...
+	  {{form|crispy}}
+        

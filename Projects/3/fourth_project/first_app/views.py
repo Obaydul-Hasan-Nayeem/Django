@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def home(request):
-    return render(request, './first_app/index.html', {
+    return render(request, './first_app/home.html', {
         "name": "I am Nayeem",
         "marks": 86,
         "courses": [
@@ -26,4 +26,4 @@ def home(request):
     })
     
 def about(request):
-    return render(request, './first_app/about.html')
+    return render(request, './first_app/about.html', {'author': 'glenn maxwell'})
