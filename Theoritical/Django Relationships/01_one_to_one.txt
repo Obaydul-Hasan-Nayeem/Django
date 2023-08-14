@@ -1,0 +1,16 @@
+Example
+=======
+person has one person
+country has one capital
+
+
+Syntax:
+=======
+OneToOneField(to, one_delete, parent_link=False, ** Options)
+
+more parameters:
+    - related_name
+    - related_query_name
+    - db_constraint
+    - unique
+    - null

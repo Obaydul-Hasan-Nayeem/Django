@@ -1,0 +1,10 @@
+Authentication:
+===============
+- the process of varifying the identity of a user.
+
+- confirm users are who they say they are
+
+Authorization:
+==============
+- process of granting access to a resource or a service based on the authenticated user.
+- gives users permission to access a resource

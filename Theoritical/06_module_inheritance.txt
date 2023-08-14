@@ -1,0 +1,22 @@
+Module Inheritance===============================
+    - same type er module / class bivinno jaygay bar bar use na kora
+    - redundancy komano
+    - DRY principle: Don't repeat yourself
+
+Types----------------------
+    1. Abstract Base Class
+    2. Multitable Inheritance
+    3. Proxy Model
+
+1. Abstract Base Class:---------------------------
+(framework / chass hishebe kaj korbe)
+
+- abstract class e kokhono object toiri kora jay na
+
+
+
+2. Multitable Inheritance -----------------------------------
+(abstract class er kono object toiri kora jeto na, but ekhane jetake inherit korbo sheta chaile next e use o korte parbo)
+
+3. Proxy Model -----------------------------------
+(akta model er poriborte onno akta model shei kaj ta korbe)
