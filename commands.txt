@@ -62,16 +62,17 @@ RUN SERVER ------------------------------------------
 CRISPY FORM------------------------------------------------
 	- pip install crispy-bootstrap5
 	- settings.py -> 
-		INSTALLED APPS = [
-					...
-					    'crispy_forms',
-    					    'crispy_bootstrap5',
-					...
-				]
-        CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-        CRISPY_TEMPLATE_PACK = "bootstrap5"
+INSTALLED APPS = [
+...
+'crispy_forms',
+'crispy_bootstrap5',
+...
+	]
 
-	- On the file (like, django_form.html): 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+	- On the file (like, home.html): 
 	{% load crispy_forms_tags %}
 	...
 	  {{form|crispy}}
