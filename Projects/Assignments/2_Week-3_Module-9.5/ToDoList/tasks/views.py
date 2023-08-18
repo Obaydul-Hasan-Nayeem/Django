@@ -3,6 +3,9 @@ from .forms import TaskForm
 from .models import TaskModel
 
 # Create your views here.
+def home(request):
+    return render(request, 'home.html')
+
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)

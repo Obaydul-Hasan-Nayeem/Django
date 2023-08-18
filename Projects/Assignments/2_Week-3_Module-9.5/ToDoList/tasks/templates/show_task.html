@@ -3,9 +3,10 @@
 {% block title %} Tasks List {% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
 
-        <h1 class="mb-4">Tasks List</h1>
+<h1>Tasks List</h1>
+
+    <div class="container mt-5">
 
         <table class="table">
 
@@ -22,14 +23,14 @@
                 {% for task in tasks %}
                 <tr>
                     <td class="text-center">{{ task.task_title }}</td>
-                    <td class="text-center">{{ task.task_description }}</td>
+                    <td>{{ task.task_description }}</td>
                     <td class="text-center">Incomplete</td>
                     <td class="text-center">
+                        <a href="{% url 'delete_task' task.id%}" class="btn btn-danger btn-sm">Delete</a>
+
                         <a href="{% url 'edit_task' task.id %}" class="btn btn-primary btn-sm">Edit</a>
 
                         <a href="{% url 'complete_task' task.id %}" class="btn btn-success btn-sm">Complete</a>
-
-                        <a href="{% url 'delete_task' task.id%}" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

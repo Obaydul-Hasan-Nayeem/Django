@@ -3,6 +3,8 @@
 {% block title %} Completed Tasks {% endblock %}
 
 {% block content %}
+    <h1>Completed Tasks</h1>
+
     <div class="container mt-5">
 
         <table class="table">
@@ -11,6 +13,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Status</th>
                 </tr>
             </thead>
 
@@ -19,6 +22,7 @@
                 <tr>
                     <td>{{ task.task_title }}</td>
                     <td>{{ task.task_description }}</td>
+                    <td>Completed</td>
                 </tr>
                 {% endfor %}
             </tbody>
