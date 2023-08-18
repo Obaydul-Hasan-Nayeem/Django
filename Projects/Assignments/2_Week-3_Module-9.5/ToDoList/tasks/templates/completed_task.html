@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Completed Tasks {% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for task in completed_task %}
+                <tr>
+                    <td>{{ task.task_title }}</td>
+                    <td>{{ task.task_description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        <a href="{% url 'show_task' %}" class="btn btn-secondary">Back to Tasks List</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+Cookie:
+    - cookie client er browser e save thake
+    - kokhon use korbo:
+        - authentication
+        - theme (dark / light)
+        - language preference
+        - remember me 
+
+Session: 
+    - kono temporary information jokhon backend / database e save kora lagbe tokhon session use korte hobe
+    - kokhon use korbo:
+        - shoping cart 
