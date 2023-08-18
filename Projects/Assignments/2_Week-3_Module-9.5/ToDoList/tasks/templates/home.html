@@ -3,16 +3,18 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<h1>Welcome to the To-Do List!</h1>
 
     <div class="container mt-5">
+        <h1>Welcome to My To-Do List!</h1>
+        <br/>
+        <img src="{% load static %}{% static 'images/tasks/to-do-list.png' %}" alt="To-Do List Image" style="height: 100px">
+        <br/>
+        <br/>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <a href="{% url 'show_task'%}" class="btn btn-primary">Show Tasks</a>
-
             <a href="{% url 'completed_task'%}" class="btn btn-primary">Completed Tasks</a>
-            
         </form>
     </div>
 {% endblock %}
