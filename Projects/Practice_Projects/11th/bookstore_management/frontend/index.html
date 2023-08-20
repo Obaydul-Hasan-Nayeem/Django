@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Management System</title>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+  <h1>Add a Book</h1>
+  <form id="bookForm">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required><br><br>
+    
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required><br><br>
+    
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author" required><br><br>
+    
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+      <option value="mystery">Mystery</option>
+      <option value="thriller">Thriller</option>
+      <option value="horror">Horror</option>
+    </select><br><br>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <h1>Book List</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Book Name</th>
+      <th>Author Name</th>
+      <th>Category</th>
+      <th>First Publication</th>
+      <th>Last Publication</th>
+      <th>Action</th>
+    </tr>
+    <!-- Sample book data (replace with dynamic data) -->
+    <tr>
+      <td>1</td>
+      <td>The Mystery Book</td>
+      <td>John Doe</td>
+      <td>Mystery</td>
+      <td>2020-01-01</td>
+      <td>2022-05-15</td>
+      <td><button>Edit</button><button>Delete</button></td>
+    </tr>
+    <!-- More book rows can be added here -->
+  </table>
+</body>
+</html>

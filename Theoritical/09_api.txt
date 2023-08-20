@@ -1,0 +1,51 @@
+API:
+    - Application Programming Interface
+    - API is a medium
+    - akta system er moddhe theke onno akta system er kono kichu use kora.
+    - API json / xml format e kotha bole / communication kore. 
+
+REST API:
+    DRF: Django Rest Framework
+    - Representational State Transfer
+    - Je API REST architecture follow kore toiri kora hoy
+    - normal API er moddhe akta type hocche REST API
+    - REST API manei url niye khela
+
+    Terms:
+        - endpoint / url
+        - method -> http
+        - header / status code
+        - data
+
+    Requests of http:
+        - create (POST)
+        - read (GET)
+        - update (PUT, PATCH)
+        - delete (DELETE)
+    
+    Response:
+        - yes
+        - error
+
+        PUT vs PATCH:
+            - PUT: single kono kichu update korte chaile puro object tai pass kore dite hobe.
+            - PATCH: full object k pass korar dorker nai. just pk and oi field ta dilei full object er jonno ota change hoye jabe. 
+
+    Serialize:
+        - API client theke json format e kono data niye database e update korle 
+
+        - or frontend theke backend e data gulo pathanor jonno json format e transfer korbe
+    
+    Deserialize:
+        - Database theke data gulo abr client e niye ashle
+
+    Serializer:
+        - serialize & deserialize er kaj ta je kore
+
+        
+        frontend (serializer) ---> request ---> json ---> (api) --> Database --> response --> (api) --> json --> (deserialize) --> object/string --> frontend 
+
+    Class Based Views:
+        - api (long cut)
+        - generic (medium)
+        - view (short cut)
