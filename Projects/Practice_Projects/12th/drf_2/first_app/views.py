@@ -18,10 +18,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     # filter_backends = [filters.SearchFilter] # for searching
     # search_fields = ['name', 'description']
     
-    filter_backends = [filters.OrderingFilter] # for ordering
-    search_fields = ['price']
+    # filter_backends = [filters.OrderingFilter] # for ordering
+    # search_fields = ['price']
     
-    pagination_class = paginations.ProductPagination
+    # pagination_class = paginations.ProductPagination
+    # pagination_class = paginations.ProductLimitOffsetPagination
+    pagination_class = paginations.ProductCursorPagination # cursor pagination add korle uporer filter use kora jabe na. karon etar moddhei by default customizable filter thake
     
 
 class ProductReviewViewSet(viewsets.ModelViewSet):

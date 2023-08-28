@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        {% block title%} {% endblock %}
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.0.1/dist/tailwind.min.css">
+
+    </head>
+    <body class="bg-indigo-600">
+        {% include 'navbar.html' %}
+        <div>
+            {% block body %} 
+
+            {% endblock %}
+        </div>
+        
+        <script src="" async defer></script>
+    </body>
+</html>
