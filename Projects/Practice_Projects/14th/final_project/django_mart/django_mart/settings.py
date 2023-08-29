@@ -30,14 +30,14 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'accounts', # added
     'cart', 
     'category',
     'orders',
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'django_mart.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3', # added
     }
 }
 
@@ -120,12 +120,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' # added
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
+MEDIA_URL = 'media/' # added
+MEDIA_ROOT = BASE_DIR / 'media' # added
+
+STATICFILES_DIRS = [ # added
+    BASE_DIR / "static"
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
