@@ -67,6 +67,7 @@
   </head>
 
   <body>
+    {{request.user}}
     <header class="section-header">
       <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
         <div class="container">
@@ -150,14 +151,26 @@
             <!-- col.// -->
             <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
               <div class="d-flex justify-content-end mb-3 mb-lg-0">
+
+              {% if request.user.is_authenticated %}
                 <div class="widget-header">
-                  <small class="title text-muted">Welcome guest!</small>
+                  <small class="title text-muted">Welcome {{request.user}}!</small>
+                  <div>
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <span class="dark-transp"> | </span>
+                    <a href="{% url 'logout' %}">Logout</a>
+                  </div>
+                </div>
+              {% else %}
+                <div class="widget-header">
                   <div>
                     <a href="{% url 'login' %}">Sign in</a>
                     <span class="dark-transp"> | </span>
                     <a href="{% url 'register' %}"> Register</a>
                   </div>
-                </div>
+                  </div>
+              {% endif %}
+
                 <a href="./cart.html" class="widget-header pl-3 ml-3">
                   <div class="icon icon-sm rounded-circle border">
                     <i class="fa fa-shopping-cart"></i>
