@@ -35,39 +35,52 @@ def get_create_session(request):
 def add_to_cart(request, product_id):
     product = Product.objects.get(id = product_id)
     # print(product)
+    
     session_id = get_create_session(request) # session id niye ashlam
-    # print("cart id:", cart_id)
-    print(session_id)
     
-    cart_id = Cart.objects.filter(cart_id = session_id).exists() # ai session id wala kono cart database e ache kina. thakle -> True, na thakle -> False dibe
-    
-    if cart_id:
-        # print("cart ache")
-        cart_item = CartItem.objects.filter(product = product).exists()
+    # logged in
+    if request.user.is_authenticated: 
+        cart_item = CartItem.objects.filter(product = product, user = request.user).exists()
         if cart_item:
             # print('ache')
             item = CartItem.objects.get(product = product)
             item.quantity += 1
             item.save()
         else:
-            cart_id = Cart.objects.get(cart_id = session_id)
+            cartid = Cart.objects.get(cartid = session_id)
             item = CartItem.objects.create(
                 cart = cart_id,
                 product = product,
-                quantity = 1
+                quantity = 1,
+                user = request.user
             )
             item.save()
-    else:
-        cart = Cart.objects.create(
-            cart_id = session_id
-            )
-        cart.save()
     
-    # cart_item = CartItem.objects.create(
-    #     product = product,
-    #     cart = cart,
-    #     quantity = 1
-    # )
+    # logged out      
+    else: 
+        cart_id = Cart.objects.filter(cart_id = session_id).exists() # ai session id wala kono cart database e ache kina. thakle -> True, na thakle -> False dibe
+        
+        if cart_id:
+            # print("cart ache")
+            cart_item = CartItem.objects.filter(product = product).exists()
+            if cart_item:
+                # print('ache')
+                item = CartItem.objects.get(product = product)
+                item.quantity += 1
+                item.save()
+            else:
+                cartid = Cart.objects.get(cart_id = session_id)
+                item = CartItem.objects.create(
+                    cart = cartid,
+                    product = product,
+                    quantity = 1
+                )
+                item.save()
+        else:
+            cart = Cart.objects.create(
+                cart_id = session_id
+                )
+            cart.save()
     
     return redirect('cart')
 
