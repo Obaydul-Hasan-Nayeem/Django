@@ -9,8 +9,8 @@ from django.contrib.auth import logout
 # def home_view(request):
 #     return render(request, 'home/home.html')
 
-def test(request):
-    return render(request, 'accounts/test.html')
+# def test(request):
+#     return render(request, 'accounts/test.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -33,7 +33,6 @@ def login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
-
 
 
 def user_logout(request):

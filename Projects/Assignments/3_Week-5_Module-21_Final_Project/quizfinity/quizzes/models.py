@@ -5,13 +5,16 @@ from django.db.models import Avg
 
 class Quiz(models.Model):
     CATEGORY_CHOICES = (
-        ('Science', 'Science'),
-        ('History', 'History'),
-        ('Math', 'Math'),
+        ('C', 'C'),
+        ('C++', 'C++'),
+        ('Python', 'Python'),
+        ('Java', 'Java'),
+        ('PHP', 'PHP'),
         # Add more choices as needed
     )
 
     title = models.CharField(max_length=255)
+    description = models.TextField(default="Default description")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     # time_limit = models.PositiveIntegerField(null=True, blank=True)
     time_limit = models.PositiveIntegerField(default=0)  # 0 means no time limit

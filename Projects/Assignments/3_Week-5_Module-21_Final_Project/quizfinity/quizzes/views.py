@@ -7,6 +7,45 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 from django.db.models import Count
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import QuizForm
+
+@staff_member_required
+def create_quiz(request):
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            quiz = form.save()
+            # You can customize the response or redirect to another page upon successful quiz creation
+            return redirect('quiz_list_new')  # Redirect to the quiz detail page
+    else:
+        form = QuizForm()
+
+    return render(request, 'quizzes/create_quiz.html', {'form': form})
+
+from .forms import QuestionForm, OptionForm
+
+def add_question(request, quiz_id):
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        option_form = OptionForm(request.POST)
+        if question_form.is_valid() and option_form.is_valid():
+            # Save the question
+            question = question_form.save(commit=False)
+            question.quiz_id = quiz_id
+            question.save()
+
+            # Save the option
+            option = option_form.save(commit=False)
+            option.question = question
+            option.save()
+
+            return redirect('quiz_detail', quiz_id=quiz_id)
+    else:
+        question_form = QuestionForm()
+        option_form = OptionForm()
+
+    return render(request, 'quizzes/add_question.html', {'question_form': question_form, 'option_form': option_form})
 
 
 def quiz_list_new(request):
