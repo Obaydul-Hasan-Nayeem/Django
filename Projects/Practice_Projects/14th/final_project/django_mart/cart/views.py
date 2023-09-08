@@ -1,108 +1,155 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product
-from . models import Cart, CartItem
-
-# Create your views here.
-# user logged out hole session id er upor base kore kaj korbo.
-# user logged in hole user er upore base kore kaj korbo.     
-
-def cart(request):
-    session_id = request.session.session_key # session id k niye ashlam
-    cartid = Cart.objects.get(cart_id = session_id) # model ber kore anlam
-    cart_id = Cart.objects.filter(cart_id = session_id).exists() # ai session id wala kono cart database e ache kina. thakle -> True, na thakle -> False dibe
-
-    cart_items = None
-    tax = 0
-    total = 0
-    grand_total = 0
-    
-    if cart_id:
-        cart_items = CartItem.objects.filter(cart = cartid)
-        for item in cart_items:
-            total += (item.product.price * item.quantity)
-            
-        tax = (2 * total) / 100 # 2% vat
-        grand_total = total + tax
-
-    
-    return render(request, 'cart/cart.html', {'cart_items': cart_items, 'tax': tax, 'total': total, 'grand_total': grand_total})
+from .models import Cart, CartItem
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 def get_create_session(request):
     if not request.session.session_key:
         request.session.create()
     return request.session.session_key
 
+def _cart_id(request):
+    cart = request.session.session_key
+    if not cart:
+        cart = request.session.create()
+    return cart
+
 def add_to_cart(request, product_id):
-    product = Product.objects.get(id = product_id)
-    # print(product)
-    
-    session_id = get_create_session(request) # session id niye ashlam
-    
-    # logged in
-    if request.user.is_authenticated: 
-        cart_item = CartItem.objects.filter(product = product, user = request.user).exists()
-        if cart_item:
-            # print('ache')
-            item = CartItem.objects.get(product = product)
+    current_user = request.user
+    product = Product.objects.get(id=product_id) #get the product
+    # If the user is authenticated
+    if current_user.is_authenticated:
+        is_cart_item_exists = CartItem.objects.filter(product=product, user=current_user).exists()
+        if is_cart_item_exists:
+            cart_items = CartItem.objects.filter(product=product, user=current_user)
+            print(cart_items)
+            item = CartItem.objects.get(product=product, user=current_user)
             item.quantity += 1
             item.save()
+            
         else:
-            cartid = Cart.objects.get(cartid = session_id)
-            item = CartItem.objects.create(
-                cart = cart_id,
-                product = product,
-                quantity = 1,
-                user = request.user
-            )
-            item.save()
-    
-    # logged out      
-    else: 
-        cart_id = Cart.objects.filter(cart_id = session_id).exists() # ai session id wala kono cart database e ache kina. thakle -> True, na thakle -> False dibe
-        
-        if cart_id:
-            # print("cart ache")
-            cart_item = CartItem.objects.filter(product = product).exists()
-            if cart_item:
-                # print('ache')
-                item = CartItem.objects.get(product = product)
-                item.quantity += 1
-                item.save()
-            else:
-                cartid = Cart.objects.get(cart_id = session_id)
-                item = CartItem.objects.create(
-                    cart = cartid,
-                    product = product,
-                    quantity = 1
-                )
-                item.save()
-        else:
-            cart = Cart.objects.create(
-                cart_id = session_id
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
+            except Cart.DoesNotExist:
+                cart = Cart.objects.create(
+                    cart_id = _cart_id(request)
                 )
             cart.save()
-    
-    return redirect('cart')
-
-def remove_cart_item(request, product_id):
-    # print(product_id)
-    product = Product.objects.get(id = product_id)
-    session_id = request.session.session_key
-    cartid = Cart.objects.get(cart_id = session_id) # cart search korlam
-    cart_item = CartItem.objects.get(cart = cartid, product = product)
-    # print('aaaaa:', cart_item)
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-        cart_item.save()
+            cart_item = CartItem.objects.create(
+                product = product,
+                quantity = 1,
+                cart = cart,
+                user = current_user
+            )
+            cart_item.save()
+        return redirect('cart')
     else:
-        cart_item.delete()
-
+        product = Product.objects.get(id=product_id)
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
+        except Cart.DoesNotExist:
+            cart = Cart.objects.create(
+                cart_id = _cart_id(request)
+            )
+            cart.save()
+        
+        try:
+            cart_item = CartItem.objects.get(product=product, cart=cart)
+            cart_item.quantity  += 1
+            cart_item.save()
+        except CartItem.DoesNotExist:
+            cart_item = CartItem.objects.create(
+                    product = product,
+                    quantity = 1,
+                    cart = cart,
+                )
+            cart.save()
     return redirect('cart')
 
-def remove_cart(request, product_id):
-    product = Product.objects.get(id = product_id)
-    session_id = request.session.session_key
-    cartid = Cart.objects.get(cart_id = session_id)
-    cart_item = CartItem.objects.get(cart = cartid, product = product)
+
+def remove_cart(request, product_id, cart_item_id):
+
+    product = get_object_or_404(Product, id=product_id)
+    try:
+        if request.user.is_authenticated:
+            cart_item = CartItem.objects.get(product=product, user=request.user, id=cart_item_id)
+        else:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    except:
+        pass
+    return redirect('cart')
+
+
+def remove_cart_item(request, product_id, cart_item_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.user.is_authenticated:
+        cart_item = CartItem.objects.get(product=product, user=request.user, id=cart_item_id)
+    else:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
     cart_item.delete()
     return redirect('cart')
+
+
+def cart(request, total=0, quantity=0, cart_items=None):
+    try:
+        tax = 0
+        grand_total = 0
+        if request.user.is_authenticated:
+            cart_items = CartItem.objects.filter(user=request.user, is_active=True)
+        else:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantity)
+            quantity += cart_item.quantity
+        tax = (2 * total)/100
+        grand_total = total + tax
+    except ObjectDoesNotExist:
+        pass #just ignore
+
+    context = {
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+        'tax'       : tax,
+        'grand_total': grand_total,
+    }
+    return render(request, 'cart/cart.html', context)
+
+
+def checkout(request):
+    print(request.POST)
+    cart_items = None
+    tax = 0
+    total = 0
+    grand_total = 0
+    
+    session_id = get_create_session(request)
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user=request.user)
+        for item in cart_items:
+            total += item.product.price * item.quantity
+        
+    else:
+        cartid = Cart.objects.get(cart_id = session_id)
+        cart_id = Cart.objects.filter(cart_id = session_id).exists()
+        print(cart_id)
+        
+        if cart_id:
+            cart_items = CartItem.objects.filter(cart = cart_id)
+            for item in cart_items:
+                total += item.product.price * item.quantity
+        print(cart_items)
+        tax = (2 * total)/100
+        grand_total = total + tax
+        return render (request, 'cart/place_order.html', {'cart_items': cart_items, 'tax': tax, 'total' : total, 'grand_total': grand_total})
+        
+    return render(request, 'cart/place-order.html', {'cart_items': cart_items, 'tax': tax, 'total' : total, 'grand_total': grand_total})

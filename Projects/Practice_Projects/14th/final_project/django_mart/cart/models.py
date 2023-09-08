@@ -12,11 +12,11 @@ class Cart(models.Model):
     
     
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True) # akta user er multiple cart thakte pare
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True) # akta user er multiple cart item thakte pare
     # null = True: jate logged out obosthay o cart add korte pare
     
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True) # session id thakle aita user korbo
     quantity = models.IntegerField()
     is_active = models.BooleanField(default = True)
     
