@@ -28,7 +28,7 @@ class Order(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    # payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     
     order_number = models.CharField(max_length=20)
     
@@ -78,3 +78,7 @@ class OrderProduct(models.Model):
     ordered = models.BooleanField(default=False)
     
     created = models.DateTimeField(auto_now_add=True)
+    
+class PaymentGateWaySettings(models.Model):
+    store_id = models.CharField(max_length=500, blank=True, null=True)
+    store_pass = models.CharField(max_length=500, blank=True, null=True)

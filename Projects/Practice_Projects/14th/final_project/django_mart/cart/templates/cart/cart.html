@@ -92,7 +92,7 @@
                 </td>
                 <td class="text-right">
                   <a
-                    href="{% url 'remove_cart' item.product.id %}"
+                    href="{% url 'remove_cart' item.product.id item.id %}"
                     class="btn btn-danger"
                   >
                     Remove</a
@@ -101,7 +101,7 @@
               </tr>
               {% endfor %}
             </tbody>
-            
+
           </table>
         </div>
         <!-- card.// -->
