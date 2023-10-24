@@ -15,12 +15,16 @@
         {% for movie in movie %}
         <div class="col">
           <div class="card h-100">
+            <a href="{% url 'details' movie.id %}">
             <img src="{{movie.image.url}}" class="card-img-top" alt="...">
+            </a>
             <div class="card-body">
+              <a href="{% url 'details' movie.id %}" class="text-reset text-decoration-none">
               <h5 class="card-title">{{movie.name}}</h5>
+              </a>
               <p class="card-text">{{movie.description}}</p>
               {% if movie.url%}
-              <a href="{{ movie.url }}" target="_blank">Watch the Movie</a>
+              <a href="{{ movie.url }}" target="_blank">Watch</a>
               {% endif %}
             </div>
             <div class="card-footer">

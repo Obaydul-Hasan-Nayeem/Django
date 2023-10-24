@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="card mb-3">
+        <img src="{{movie.image.url}}" class="card-img-top" alt="..." style="width: 935px; height: 300px;">
+        <div class="card-body">
+        <h5 class="card-title">{{movie.name}}</h5>
+        <p class="card-text">{{movie.description}}</p>
+        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+        <a href="{% url 'create_review' movie.id %}" class="btn btn-primary">Add Review</a>
+
+        {% for review in reviews %}
+            {{ review }}
+        {% endfor %}
+        
+    </div>
+    </div>
+
+{% endblock content %}

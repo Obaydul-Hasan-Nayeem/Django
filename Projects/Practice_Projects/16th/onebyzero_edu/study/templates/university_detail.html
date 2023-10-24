@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ university.name }} - University Details{% endblock %}
+
+{% block content %}
+    <h1>{{ university.name }}</h1>
+    <h2>Departments:</h2>
+    <ul>
+        {% for department in departments %}
+            <li>{{ department.name }}</li>
+        {% empty %}
+            <li>No departments available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

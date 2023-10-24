@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}My Department{% endblock %}
+
+{% block content %}
+<div>
+    <div>
+        <h2>{{ department.name }}</h2>
+        <h4>{{ university.name }}</h4>
+    </div>
+
+    <h5>Semester: {{ semester }}</h5>
+    
+{% for i in semester %}
+    <h5>{{ i }}</h5>
+{% endfor %}
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Course Title</th>
+            <th scope="col">Course Code</th>
+            <th scope="col">Credit Hour</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            {% for course in courses %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ course.title }}</td>
+            <td>{{ course.code }}</td>
+            <td>3</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}

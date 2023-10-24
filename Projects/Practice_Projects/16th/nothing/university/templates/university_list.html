@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}University List{% endblock %}
+
+{% block content %}
+{% for university in universities %}
+    <tr>
+        <td>{{ university.name }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="3">No universities available.</td>
+    </tr>
+{% endfor %}
+{% endblock %}
