@@ -5,17 +5,46 @@
 {% block content %}
 <div>
     <div>
-        <h2>{{ department.name }}</h2>
+        <h2>Department of {{ department.name }}</h2>
         <h4>{{ university.name }}</h4>
     </div>
 
-    <h5>Semester: {{ semester }}</h5>
-    
-{% for i in semester %}
-    <h5>{{ i }}</h5>
-{% endfor %}
 
-    <table class="table table-striped">
+    {% for i in "1234" %}
+
+    <h5>Year-{{ i }}, Semester-{{ 1 }}</h5>
+
+     <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Course Title</th>
+            <th scope="col">Course Code</th>
+            <th scope="col">Credit Hour</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% comment %} {% with j = 1 %} {% endcomment %}
+            {% for course in courses %}
+            {% if course.year == i|add:0 and course.semester == 1 %}
+                <tr>
+                    <th scope="row">0</th>
+                    <td><a href="#">{{ course.title }}</a></td>
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.credit }}</td>
+                </tr>
+                {% comment %} {% with j=j|add:1 %} {% endcomment %}
+            {% endif %}
+          {% endfor %}
+        {% comment %} {% endwith %} {% endcomment %}
+        </tbody>
+      </table>
+
+      <br>
+
+      <h5>Year-{{ i }}, Semester-{{ 2 }}</h5>
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -27,14 +56,19 @@
 
         <tbody>
             {% for course in courses %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ course.title }}</td>
-            <td>{{ course.code }}</td>
-            <td>3</td>
-          </tr>
+            {% if course.year == i|add:0 and course.semester == 2 %}
+                <tr>
+                    <th scope="row">0</th>
+                    <td><a href="#">{{ course.title }}</a></td>
+                    <td>{{ course.code }}</td>
+                    <td>{{ course.credit }}</td>
+                </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>
+      <br>
+    {% endfor %}
+
     </div>
 {% endblock %}

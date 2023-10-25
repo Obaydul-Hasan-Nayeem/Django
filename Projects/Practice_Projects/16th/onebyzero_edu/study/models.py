@@ -9,9 +9,8 @@ class University(models.Model):
 class Department(models.Model):
     name = models.CharField(max_length=100)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
-    
     def __str__(self):
-        return self.name, self.university.name
+        return f'{self.name} ({self.university})'
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
@@ -23,3 +22,17 @@ class Course(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Question(models.Model):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    year = models.PositiveIntegerField()
+    semester = models.PositiveIntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    exam_name = models.CharField(max_length=50)
+    session = models.CharField(max_length=9)
+    question_file = models.FileField(upload_to='study/questions/')
+
+    def __str__(self):
+        return self.exam_name
+

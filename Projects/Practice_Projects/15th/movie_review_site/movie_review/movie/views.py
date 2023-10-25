@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Movie
+from .models import Movie, Review
 from django.shortcuts import get_object_or_404
 from .forms import ReviewForm
 
