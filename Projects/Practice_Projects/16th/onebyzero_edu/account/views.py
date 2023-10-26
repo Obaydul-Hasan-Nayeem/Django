@@ -2,7 +2,6 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignupForm, LoginForm
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile
 
 def signup(request):
     if request.method == 'POST':
@@ -10,6 +9,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log the user in after registration
+            UserProfile.objects.create(user=user)
             return redirect('profile')  # Redirect to the user's profile page
     else:
         form = SignupForm()
@@ -29,10 +29,3 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
-
-
-@login_required
-def user_profile(request):
-    user = request.user
-    profile = UserProfile.objects.get(user=user)
-    return render(request, 'profile.html', {'user': user, 'profile': profile})
