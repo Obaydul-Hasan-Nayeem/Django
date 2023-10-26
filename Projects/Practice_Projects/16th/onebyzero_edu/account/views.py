@@ -1,4 +1,4 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignupForm, LoginForm
 from django.contrib.auth.decorators import login_required
@@ -9,8 +9,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log the user in after registration
-            UserProfile.objects.create(user=user)
-            return redirect('profile')  # Redirect to the user's profile page
+            # UserProfile.objects.create(user=user)
+            return redirect('home')  # Redirect to the user's profile page
     else:
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
@@ -25,7 +25,11 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('profile')  # Redirect to the user's profile page
+                return redirect('home')  # Redirect to the user's profile page
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+def user_logout(request):
+    logout(request)
+    return redirect('home')

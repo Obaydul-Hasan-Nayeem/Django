@@ -3,12 +3,13 @@
 {% block title %}My Department{% endblock %}
 
 {% block content %}
-<div>
-    <div>
-        <h2>Department of {{ department.name }}</h2>
-        <h4>{{ university.name }}</h4>
-    </div>
 
+
+<div>
+  <div class="container text-center mt-3">
+    <h2>Department of {{ department.name }}</h2>
+    <h4>{{ university.name }}</h4>
+</div>
 
     {% for i in "1234" %}
 
@@ -30,7 +31,7 @@
             {% if course.year == i|add:0 and course.semester == 1 %}
                 <tr>
                     <th scope="row">0</th>
-                    <td><a href="#">{{ course.title }}</a></td>
+                    <td><a href="{% url 'course' course.id %}">{{ course.title }}</a></td>
                     <td>{{ course.code }}</td>
                     <td>{{ course.credit }}</td>
                 </tr>
@@ -59,7 +60,7 @@
             {% if course.year == i|add:0 and course.semester == 2 %}
                 <tr>
                     <th scope="row">0</th>
-                    <td><a href="#">{{ course.title }}</a></td>
+                    <td><a href="{% url 'course' course.id %}">{{ course.title }}</a></td>
                     <td>{{ course.code }}</td>
                     <td>{{ course.credit }}</td>
                 </tr>

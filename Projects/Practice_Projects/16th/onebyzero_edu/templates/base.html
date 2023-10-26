@@ -60,54 +60,59 @@
                             <a class="nav-link active" aria-current="page" href="#">Resources</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">My Department</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'my_department' 1 5 %}">My Department</a>
                         </li>
-                        <li class="nav-item">
+                        {% comment %} <li class="nav-item">
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
+                        </li> {% endcomment %}
                     </ul>
-                    <form class="d-flex">
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            {% if user.is_authenticated %}
+                                {% comment %} <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <img src="path/to/your/profile/image.jpg" alt="Profile" width="24" height="24">
+                                    </a>
+                                </li> {% endcomment %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    {% comment %} <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    </form> {% endcomment %}
                 </div>
             </div>
         </nav>
     </header>
+    {% if request.user.is_authenticated %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Welcome, {{ user.username }}!</h4>
+            {% comment %} <p>You are logged in!</p> {% endcomment %}
+        </div>
+    {% endif %}
 
     <main>
         {% block content %}
-
+     
         {% endblock %}
     </main>
 
-    <footer>
+    <footer class="fixed-bottom text-center">
         <p>&copy; {{ year }} Onebyzero Edu</p>
-    </footer>
-
-
-    <script>
-        $(document).ready(function () {
-            $('#id_university').change(function () {
-                var universityId = $(this).val();
-                $.ajax({
-                    url: '/get_departments/',
-                    data: {
-                        'university_id': universityId
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        var departmentSelect = $('#id_department');
-                        departmentSelect.empty();
-                        departmentSelect.append('<option value="">Select a department</option>');
-                        $.each(data, function (key, value) {
-                            departmentSelect.append('<option value="' + value.value + '">' + value.label + '</option>');
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+    </footer> 
 
 </body>
 </html>

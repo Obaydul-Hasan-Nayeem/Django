@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Course Page{% endblock %}
+
+{% block content %}
+<div>
+    <div class="container text-center mt-3">
+        <h1>{{ course.title }}</h1>
+        <p><b>Course Code: {{ course.code }}</b></p>
+      <h4>Department of {{ department.name }}, {{ university.name }}</h4>
+</div>
+
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                {% comment %} <img src="image.jpg" class="card-img-top" alt="Card Image"> {% endcomment %}
+                <div class="card-body">
+                    <h5 class="card-title">Questions</h5>
+                    <p class="card-text">All the Previous Year Questions of Exams</p>
+                    <a href="#" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
