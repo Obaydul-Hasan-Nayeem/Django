@@ -18,13 +18,13 @@ SEMESTER_CHOICES = (
     (SECOND_SEM, '2nd Semester'),
 )
 #-------------------------------------------------
-FIRST_MID = '1st_mid'
-SECOND_MID = '2nd_mid'
-THIRD_MID = '3rd_mid'
-CLASS_TEST = 'class_test'
-LAB_TEST = 'lab_test'
-LAB_FINAL = 'lab_final'
-SEM_YEAR_FINAL = 'sem_year_final'
+FIRST_MID = '1st Mid'
+SECOND_MID = '2nd Mid'
+THIRD_MID = '3rd Mid'
+CLASS_TEST = 'Class Test'
+LAB_TEST = 'Lab Test'
+LAB_FINAL = 'Lab Final'
+SEM_YEAR_FINAL = 'Final'
 
 EXAM_CHOICES = (
     (FIRST_MID, '1st Mid Term'),
@@ -33,7 +33,7 @@ EXAM_CHOICES = (
     (CLASS_TEST, 'Class Test'),
     (LAB_TEST, 'Lab Test'),
     (LAB_FINAL, 'Lab Final'),
-    (SEM_YEAR_FINAL, 'Semester/Year Final'),
+    (SEM_YEAR_FINAL, 'Final'),
 )
 #-----------------------------------------------
 # SESSION_CHOICES = (

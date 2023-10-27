@@ -2,6 +2,19 @@ from django.shortcuts import render, redirect
 from .models import University, Department, Course, Question
 from django.shortcuts import get_object_or_404
 from .forms import QuestionForm, MyDepartmentForm
+from django.contrib.auth.models import User
+
+
+
+# Assuming you want to find the user by username
+# username = 'nayeem'
+# try:
+#     user = User.objects.get(username=username)
+#     user_id = user.id
+#     print(f"User ID for {username} is {user_id}")
+# except User.DoesNotExist:
+#     print(f"User with username {username} does not exist.")
+
 
 def university_detail(request, university_id):
     university = University.objects.get(pk=university_id)
@@ -22,26 +35,26 @@ def university_detail(request, university_id):
 #     return render(request, 'my_form.html', {'form': form})
     
 
-def my_department(request, university_id, department_id, course_id):
-    university = get_object_or_404(University, pk=university_id)
-    department = get_object_or_404(Department, pk=department_id, university=university)
-    course = get_object_or_404(Course, pk=course_id)
-    # course = Course.objects.filter(department=department)
-    semester = course.semester
-    year = course.year
-    credit = course.credit
-    code = course.code
+# def my_department(request, university_id, department_id, course_id):
+#     university = get_object_or_404(University, pk=university_id)
+#     department = get_object_or_404(Department, pk=department_id, university=university)
+#     course = get_object_or_404(Course, pk=course_id)
+#     # course = Course.objects.filter(department=department)
+#     semester = course.semester
+#     year = course.year
+#     credit = course.credit
+#     code = course.code
 
-    # context = {
-    #     'department': department,
-    #     'university': university,
-    #     'semester': semester,
-    #     'course': course,
-    #     'year': year,
-    #     'credit': credit,
-    # }
+#     # context = {
+#     #     'department': department,
+#     #     'university': university,
+#     #     'semester': semester,
+#     #     'course': course,
+#     #     'year': year,
+#     #     'credit': credit,
+#     # }
     
-    return render(request, 'my_department.html', {'department': department, 'university': university, 'semester': semester, 'course': course, 'year': year, 'credit': credit, 'code': code})
+#     return render(request, 'my_department.html', {'department': department, 'university': university, 'semester': semester, 'course': course, 'year': year, 'credit': credit, 'code': code})
 
 def my_department(request, university_id, department_id):
     university = get_object_or_404(University, pk=university_id)
@@ -52,19 +65,32 @@ def my_department(request, university_id, department_id):
 
     return render(request, 'my_department.html', {'department': department, 'university': university, 'courses': courses})
 
-
+from django.http import JsonResponse
+def get_departments(request):
+    university_id = 1
+    # Query the database to get the departments for the selected university.
+    departments = Department.objects.filter(university_id=university_id)
+    department_list = [{'id': department.id, 'name': department.name} for department in departments]
+    # return JsonResponse({'departments': department_list})
+    return render(request, 'home.html', {'department_list':department_list})
 
 def add_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            # Redirect or show a success message
-            return render(request, 'resources.html')
+            question = form.save(commit=False) # Create the question object but don't save it yet
+            question.uploaded_by = request.user  # Set the uploaded_by field to the currently logged-in user
+            question.save()  # Save the question with the uploaded_by information
+            return redirect('view_questions', course_id=question.course.id)
     else:
         form = QuestionForm()
     return render(request, 'add_question.html', {'form': form})
 
+def view_questions(request, course_id):
+    questions = Question.objects.filter(course=course_id).order_by('-upload_time')
+    course = get_object_or_404(Course, pk=course_id)
+    
+    return render(request, 'view_questions.html', {'questions': questions, 'course': course})
 
 def view_resources(request, question_id):
     question = Question.objects.all()
@@ -90,4 +116,6 @@ def course(request, course_id):
 #         form = MyDepartmentForm()
 
 #     return render(request, 'select_department.html', {'form': form})
+
+
 

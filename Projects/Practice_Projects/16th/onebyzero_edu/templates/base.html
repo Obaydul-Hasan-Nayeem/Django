@@ -114,6 +114,51 @@
         <p>&copy; {{ year }} Onebyzero Edu</p>
     </footer> 
 
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Define a function to update the time every minute
+        function updateTimeAgo() {
+            $('.time-ago').each(function () {
+                const $this = $(this);
+                const timestamp = $this.data('timestamp');
+                const timeAgo = moment(timestamp).fromNow();
+                $this.text(timeAgo);
+            });
+        }
+
+        $(document).ready(function () {
+            updateTimeAgo(); // Initial update
+            setInterval(updateTimeAgo, 60000); // Update every minute
+        });
+    </script>
+
+
+    
+ 
+    <script>
+    $(document).ready(function() {
+        $('#id_university').change(function() {
+            var universityId = $(this).val();
+            $.ajax({
+                url: '/get_departments/',  // Update with the actual URL
+                data: {'university_id': universityId},
+                dataType: 'json',
+                success: function(data) {
+                    var departmentSelect = $('#id_department');
+                    departmentSelect.empty();
+                    $.each(data.departments, function(index, department) {
+                        departmentSelect.append($('<option>', {
+                            value: department.id,
+                            text: department.name
+                        }));
+                    });
+                }
+            });
+        });
+    });
+    </script>
+
 </body>
 </html>
     
