@@ -1,0 +1,20 @@
+SERIALIZER: =========================================
+
+--- serializer:
+    - complex data k native python e convert kore.
+        - complex data: querysets, model instances
+    - native python data k easily json, xml or other content type e render kora jay.
+
+    complext data (serializer) ==> native python datatype ==> json data
+
+    Ex:
+        teachers = Teacher.objects.all()      [complex data]
+        serializer = TeacherSerializer(teachers)     [native python]
+        Json = JSONRenderer().render(serializer.data)     [json data]
+
+--- json:
+    - javascript object notation
+    - used when data is sent from a server to a web page
+    - Ex: {"firstName": "Obaydul Hasan", "lastName": "Nayeem"}
+
+--- model instance: table er protita row ekekta model instance

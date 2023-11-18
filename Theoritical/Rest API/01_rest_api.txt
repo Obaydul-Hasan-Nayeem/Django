@@ -32,7 +32,7 @@ REST API:
             - PATCH: full object k pass korar dorker nai. just pk and oi field ta dilei full object er jonno ota change hoye jabe. 
 
     Serialize:
-        - API client theke json format e kono data niye database e update korle 
+        - API client theke json format e kono data niye database e update korle
 
         - or frontend theke backend e data gulo pathanor jonno json format e transfer korbe
     
