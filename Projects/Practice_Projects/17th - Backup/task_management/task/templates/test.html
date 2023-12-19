@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Test</h1>
+    {% comment %} {% for task in tasks %}
+        <p>{{ task }}</p>
+    {% endfor %} {% endcomment %}
+
+    {% comment %} {{ task }}
+    {{ task_id }} {% endcomment %}
+
+    {% for t in task %}
+    <p>{{ t.title }}</p>
+    {% endfor %}
+
+    
+
+
+{% endblock %}
