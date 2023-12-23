@@ -5,10 +5,26 @@ from .forms import TaskForm
 from datetime import timedelta
 from datetime import date
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from .serializers import TaskSerializer
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView, UpdateAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+# HOME ====================
 def home(request):
     return render(request, 'home.html')
 
+class HomeAPIView(APIView):
+    def get(self, request, format=None):
+        return Response({'message': 'Welcome to the Task Home Page'}, status=status.HTTP_200_OK)
+
+# ADD TASK ====================
 @login_required
 def add_task(request):
     if request.method == 'POST':
@@ -22,6 +38,11 @@ def add_task(request):
         form = TaskForm()
     return render(request, 'add_task.html', {'form': form})
 
+class AddTaskCreateView(CreateAPIView): 
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+# EDIT TASK ====================
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     if request.method == 'POST':
@@ -33,8 +54,12 @@ def edit_task(request, task_id):
         form = TaskForm(instance=task)
     return render(request, 'edit_task.html', {'form': form})
 
-from django.shortcuts import render
+class EditTaskAPIView(RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
+
+# DELETE TASK ====================
 def delete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
 
@@ -44,13 +69,26 @@ def delete_task(request, task_id):
             return redirect('task_list')
     return render(request, 'confirm_delete.html', {'task': task})
 
+class DeleteTaskAPIView(RetrieveDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
+# COMPLETE TASK ====================
 def complete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     task.completion_status = True
     task.save()
     return redirect('task_list')
 
+class CompleteTaskAPIView(RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def perform_update(self, serializer):
+        serializer.instance.completion_status = True
+        serializer.save()
+
+# TASK LIST ====================
 @login_required
 def task_list(request):
     query = request.GET.get('q')
@@ -91,9 +129,12 @@ def task_list(request):
     
     return render(request, 'task_list.html', {'tasks': tasks, 'query': query})
 
+class TaskListView(ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
 
-
+# TASK DETAIL ====================
 def task_detail(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     
@@ -107,3 +148,6 @@ def task_detail(request, task_id):
         
     return render(request, 'task_detail.html', {'task': task, 'remaining_time': remaining_time})
 
+class TaskDetailAPIView(RetrieveAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
