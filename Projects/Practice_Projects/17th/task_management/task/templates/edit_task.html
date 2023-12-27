@@ -5,6 +5,8 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h1 class="mt-4 mb-4">Edit Task</h1>
+            <h6><b>Last Updated:</b> {{last_updated}}</h6>
+            <br>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}

@@ -128,6 +128,8 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
     return render(request, 'change_password.html', {'form': form})
 
+
+
 class ChangePasswordAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ChangePasswordSerializer(data=request.data)

@@ -6,22 +6,31 @@
         <div class="card-header bg-secondary text-white">
             <h4 class="card-title text-center pt-2">{{ task.title }}</h4>
         </div>
-        
+    
         <div class="card-body">
             <p><strong>Description: </strong>{{ task.description }}</p>
             <p><strong>Created: </strong>{{ task.creation_date }}</p>
             <p><strong>Due Date: </strong>{{ task.due_date }}</p>
+            <p><strong>Last Updated: </strong>{{ task.last_updated }}</p>
             <p><strong>Remaining Time: </strong>
                 {% if remaining_time %}
                     {{ remaining_time }}
                 {% else %}
                     No due date specified
                 {% endif %}
-            </p>            
+            </p>
             <p><strong>Priority: </strong>{{ task.get_priority_display }}</p>
             <p><strong>Status: </strong>{% if task.completion_status %}Completed{% else %}Not Completed{% endif %}</p>
-            {% if task.photo %}
-            <strong>Photo: </strong><img src="{{ task.photo.url }}" alt="Task Photo" style="width: 300px; height: auto;">
+            
+            {% if task.task_images.all %}
+            <strong>Task Images: </strong>
+            <div class="row">
+                {% for task_image in task.task_images.all %}
+                    <div class="col-md-4">
+                        <img src="{{ task_image.image.url }}" alt="Task Image" class="img-fluid">
+                    </div>
+                {% endfor %}
+            </div>
             {% endif %}
         </div>
     </div>

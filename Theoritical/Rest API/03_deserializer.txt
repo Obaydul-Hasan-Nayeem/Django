@@ -1,0 +1,7 @@
+DESERIALIZER ==========================================
+- serializer er ulto
+- process of converting native python data type (dictionaries) to - complex data type (such as querysets)
+- serializer also provide deserializer
+
+
+Json Data (Perse Data) ==> Native Python Datatype (DeSerializer) ==> Complex Datatype

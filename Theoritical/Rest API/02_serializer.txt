@@ -11,6 +11,7 @@ SERIALIZER: =========================================
         teachers = Teacher.objects.all()      [complex data]
         serializer = TeacherSerializer(teachers)     [native python]
         Json = JSONRenderer().render(serializer.data)     [json data]
+    - serializers.py onekta forms.py er moto kaj kore.
 
 --- json:
     - javascript object notation

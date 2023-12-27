@@ -8,7 +8,8 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {{ photo_form.as_p }}
+                {% comment %} {{ photo_form.as_p }} {% endcomment %}
+                <input required name="images" type="file" multiple class="form-control-file">
                 <button type="submit" class="btn btn-primary mt-3">Add Task</button>
             </form>
         </div>

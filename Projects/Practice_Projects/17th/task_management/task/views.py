@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task
+from .models import Task, TaskImage
 from .forms import TaskForm
 from datetime import timedelta
 from datetime import date
@@ -25,34 +25,85 @@ class HomeAPIView(APIView):
         return Response({'message': 'Welcome to the Task Home Page'}, status=status.HTTP_200_OK)
 
 # ADD TASK ====================
+# @login_required
+# def add_task(request):
+#     if request.method == 'POST':
+#         form = TaskForm(request.POST, request.FILES)
+#         images = request.FILES.getlist('images')
+#         if form.is_valid():
+#             task = form.save(commit=False)
+#             task.uploaded_by = request.user
+#             task.images = images
+#             task.save()
+#             return redirect('task_list')
+#     else:
+#         form = TaskForm()
+#     return render(request, 'add_task.html', {'form': form})
+
+from django.shortcuts import render, redirect
+from .forms import TaskForm
+
 @login_required
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST, request.FILES)
         if form.is_valid():
-            # question = form.save(commit=False) # Create the question object but don't save it yet
-            # question.uploaded_by = request.user  # Set the uploaded_by field to the currently logged-in user
-            form.save()  # Save the question with the uploaded_by information
+            task = form.save(commit=False)
+            task.uploaded_by = request.user
+            task.save()
+
+            # Handle multiple images
+            images = request.FILES.getlist('images')
+            for image in images:
+                task_image = TaskImage.objects.create(task=task, image=image)
+
             return redirect('task_list')
     else:
         form = TaskForm()
     return render(request, 'add_task.html', {'form': form})
+
 
 class AddTaskCreateView(CreateAPIView): 
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
 # EDIT TASK ====================
+# def edit_task(request, task_id):
+#     task = get_object_or_404(Task, pk=task_id)
+#     last_updated = task.last_updated
+#     if request.method == 'POST':
+#         form = TaskForm(request.POST, request.FILES, instance=task)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('task_list')
+#     else:
+#         form = TaskForm(instance=task)
+#     return render(request, 'edit_task.html', {'form': form, 'last_updated': last_updated})
+
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
+    last_updated = task.last_updated
+
     if request.method == 'POST':
         form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
+            # Exclude images from updating if not provided in the form
+            form.save(commit=False)
+            form.instance.images.clear()  # Clear existing images
+
+            # Save the form without committing to update the images separately
             form.save()
+
+            # Now update the images separately
+            for image in request.FILES.getlist('images'):
+                TaskImage.objects.create(task=task, image=image)
+
             return redirect('task_list')
     else:
         form = TaskForm(instance=task)
-    return render(request, 'edit_task.html', {'form': form})
+
+    return render(request, 'edit_task.html', {'form': form, 'last_updated': last_updated})
+
 
 class EditTaskAPIView(RetrieveUpdateAPIView):
     queryset = Task.objects.all()
@@ -92,8 +143,8 @@ class CompleteTaskAPIView(RetrieveUpdateAPIView):
 @login_required
 def task_list(request):
     query = request.GET.get('q')
-    # tasks = Task.objects.all()
-    tasks = Task.objects.order_by('-creation_date')  # Or any other field you want to order by
+    # tasks = Task.objects.order_by('-creation_date')
+    tasks = Task.objects.filter(uploaded_by=request.user).order_by('-creation_date')
 
 
     if query:
@@ -145,8 +196,10 @@ def task_detail(request, task_id):
         remaining_time = due_date - creation_date
     else:
         remaining_time = None
-        
-    return render(request, 'task_detail.html', {'task': task, 'remaining_time': remaining_time})
+    
+    task_images = task.task_images.all()
+    
+    return render(request, 'task_detail.html', {'task': task, 'remaining_time': remaining_time, 'task_images': task_images})
 
 class TaskDetailAPIView(RetrieveAPIView):
     queryset = Task.objects.all()
