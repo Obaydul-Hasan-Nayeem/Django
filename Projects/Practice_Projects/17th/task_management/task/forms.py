@@ -3,8 +3,6 @@ from .models import Task, TaskImage
 
 class TaskForm(forms.ModelForm):
     
-    images = forms.ModelMultipleChoiceField(queryset=TaskImage.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
-    
     class Meta:
         model = Task
         fields = ['title', 'description', 'due_date', 'priority', 'completion_status']

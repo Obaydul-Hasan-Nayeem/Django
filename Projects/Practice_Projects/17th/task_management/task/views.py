@@ -68,41 +68,21 @@ class AddTaskCreateView(CreateAPIView):
     serializer_class = TaskSerializer
 
 # EDIT TASK ====================
-# def edit_task(request, task_id):
-#     task = get_object_or_404(Task, pk=task_id)
-#     last_updated = task.last_updated
-#     if request.method == 'POST':
-#         form = TaskForm(request.POST, request.FILES, instance=task)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('task_list')
-#     else:
-#         form = TaskForm(instance=task)
-#     return render(request, 'edit_task.html', {'form': form, 'last_updated': last_updated})
-
 def edit_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     last_updated = task.last_updated
-
+    # images = TaskImage.objects.filter(task=task)
+    images = task.task_images.all()
     if request.method == 'POST':
         form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
-            # Exclude images from updating if not provided in the form
-            form.save(commit=False)
-            form.instance.images.clear()  # Clear existing images
-
-            # Save the form without committing to update the images separately
             form.save()
-
-            # Now update the images separately
-            for image in request.FILES.getlist('images'):
-                TaskImage.objects.create(task=task, image=image)
-
             return redirect('task_list')
     else:
         form = TaskForm(instance=task)
+    return render(request, 'edit_task.html', {'form': form, 'last_updated': last_updated, 'images': images})
 
-    return render(request, 'edit_task.html', {'form': form, 'last_updated': last_updated})
+
 
 
 class EditTaskAPIView(RetrieveUpdateAPIView):

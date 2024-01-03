@@ -10,10 +10,19 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {{ photo_form.as_p }}
+                {% comment %} {{ photo_form.as_p }} {% endcomment %}
+                
+                {% comment %} {% for image in images %}
+                    <img src="{{ image.image.url }}" alt="{{ image.description }}" class="img-fluid" style="width: 200px; height:150px; margin: 5px">
+                {% endfor %} {% endcomment %}
+
+
                 <button type="submit" class="btn btn-primary mt-3">Save</button>
             </form>
         </div>
     </div>
 </div>
+
+
+
 {% endblock %}
